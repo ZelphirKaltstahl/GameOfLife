@@ -7,37 +7,25 @@ import itertools
 
 from Rules import Rules
 from State import State
+from Plotter import Plotter
 
 import examples.example_state_000 as examples
 
 class GameOfLife():
 	"""docstring for GameOfLife"""
-	def __init__(self):
+	def __init__(self,):
 		super(GameOfLife, self).__init__()
 
 		# self.rules = Rules()
 		adjacency_matrix = np.full((3,3), 1, dtype=np.uint8)
-		center_y, center_x = self.get_center(adjacency_matrix)
+		center_y, center_x = self.get_center_indices(adjacency_matrix)
 		adjacency_matrix[center_y][center_x] = False
 		self.rules = Rules(adjacency_matrix=adjacency_matrix)
 
-		T = True
-		F = False
-
-		self.initial_generation = [
-			[T, F, F, F, F, F, F],
-			[T, F, F, F, T, F, F],
-			[T, F, F, F, F, F, F],
-			[F, F, T, F, T, F, F],
-			[F, F, F, F, F, F, F],
-			[F, F, F, F, F, F, F],
-			[F, F, F, F, F, F, F],
-			[F, F, T, T, T, F, F],
-			[F, F, F, F, T, F, F],
-			[F, F, T, F, T, F, F]
-		]
-
-		self.initial_generation = examples.example_state_000
+		# self.initial_generation = examples.example_state_000
+		# self.initial_generation = examples.example_state_001
+		# self.initial_generation = examples.example_state_002
+		self.initial_generation = examples.example_state_003
 
 		self.state = State(self.initial_generation)
 
@@ -51,12 +39,21 @@ class GameOfLife():
 				)
 			)
 		)
-		self.next()
-		print(self.state)
 
-	def get_center(self, matrix):
-		y = int(len(matrix) / 2)
-		x = int(len(matrix) / 2)
+		max_gen = 100
+		while max_gen > 0 and np.any(np.any(self.state.generation, axis=1), axis=0):
+			self.next()
+			#print(self.state)
+			max_gen -= 1
+
+		for state in self.state_history:
+			print(state)
+
+		self.plot()
+
+	def get_center_indices(self, arr):
+		y = int(len(arr) / 2)
+		x = int(len(arr) / 2)
 		return (x, y)
 
 	def next(self):
@@ -105,6 +102,9 @@ class GameOfLife():
 	def flatten_array(self, arr):
 		return list(itertools.chain.from_iterable(arr))
 
+	def plot(self):
+		plotter = Plotter()
+		plotter.plot_alive_cells(self.state_history)
 
 def main():
 	game_of_life_app = GameOfLife()

@@ -26,11 +26,11 @@ class State():
 		super(State, self).__init__()
 		if generation is None:
 			self.generation = np.array([
-				[False,False,False,False,False],
-				[False,False,True,False,False],
-				[False,False,True,False,False],
-				[False,False,True,False,False],
-				[False,False,False,False,False]
+				[False, False, False, False, False],
+				[False, False, True, False, False],
+				[False, False, True, False, False],
+				[False, False, True, False, False],
+				[False, False, False, False, False]
 			])
 		else:
 			self.generation = np.array(generation)
@@ -122,6 +122,9 @@ class State():
 		blobs, number_of_blobs = sp.ndimage.label(self.generation, structure=adjacency_matrix)
 		self.invert()
 		return number_of_blobs
+
+	def count_alive_cells(self):
+		return np.sum(self.generation)
 
 	# def get_neighbors_window(y_coord, x_coord, rows=3, cols=3):
 	# 	'''
