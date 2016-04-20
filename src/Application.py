@@ -92,97 +92,18 @@ class GameOfLife():
 				fillvalue=0
 			)# - self.state.generation
 
-		print(neighbors_count)
-
 		birth_counts = self.flatten_array(self.rules.birth_counts)
 		surviving_counts = self.flatten_array(self.rules.surviving_counts)
-		print('birth counts:', birth_counts)
-		print('surviving counts:', surviving_counts)
 
-		# for start, end in self.rules.birth_counts:
-		# 	pass
-
-		# birth_counts = np.array([range(start, end+1) for start, end in self.rules.birth_counts])
-		# print(birth_counts)
-		# print(list(itertools.chain.from_iterable(self.rules.birth_counts)))
-		# print(np.fromiter(itertools.chain.from_iterable(self.rules.birth_counts), dtype=np.uint8))
-		#print(np.fromiter(birth_counts, dtype=np.uint8))
 		birth_cells = np.in1d(neighbors_count, birth_counts).reshape(neighbors_count.shape)
 		possibly_surviving_cells = np.in1d(neighbors_count, surviving_counts).reshape(neighbors_count.shape)
 		next_state_generation = birth_cells | (self.state.generation & possibly_surviving_cells)
-		# next_state_generation = (neighbors_count in birth_counts) | (self.state.generation & (neighbors_count in surviving_counts))
-		# next_state_generation = np.logical_and(neighbors_count)
-		# next_state_generation = (np.in1d(neighbors_count.ravel(), birth_counts)) | (self.state.generation & np.in1d(neighbors_count.ravel(), surviving_counts))
 
 		self.state = State(next_state_generation, generation_number=self.state.generation_number+1)
 		self.state_history.append(self.state)
 
 	def flatten_array(self, arr):
 		return list(itertools.chain.from_iterable(arr))
-
-		# nbrs_count contains the number of neighbors calculated by the convolve2d operation
-
-		# next_state_generation = np.full((self.state.height, self.state.width), False, dtype=bool)
-		#
-		# for (x,y), value in np.ndenumerate(self.state.generation):
-		# 	print(x, '|', y, sep='')
-		#
-		#
-		# 		# neighbors = self.get_neighbors([row_index, column_index])
-		# 		# neighbors_count = len(neighbors)
-		# 		#
-		# 		# if self.state.generation[row_index][column_index]:
-		# 		# 	if neighbors_count in range(self.rules.surviving_counts[0], self.rules.surviving_counts[1] + 1):
-		# 		# 		next_state_generation[row_index][column_index] = True
-		# 		#
-		# 		# neighbors_alive_counter = 0
-		# 		# for neighbor in self.get_neighbors([row_index, column_index]):
-		# 		# 	if neighbor:
-		# 		# 		neighbors_alive_counter += 1
-		# 		#
-		# 		# for alive_range in self.rules.birth_counts:
-		# 		# 	elif neighbors_alive_counter in range(alive_range[0], alive_range[1]+1):  # +1 because range excludes the second number from the returned range
-		# 		# 		next_state_generation[row_index][column_index] = True
-		#
-		#
-		# next_state = State(next_state_generation)
-		# print('neighbors of', [3,4], ' are', self.get_neighbors((3,4)))
-		# print('Next:', next_state)
-
-	# def get_neighbors(self, coords):
-	# 	"""
-	# 	This method returns the neighbors for coordinates considering the adjacency matrix.
-	#
-	# 	Parameters
-	# 	----------
-	# 	coords : tuple of ints
-	# 		the coordinates, for which neighbors will be calculated
-	# 	"""
-	# 	pass
-	#
-	# 	# # print('Height:', self.state.height)
-	# 	# # print('Width:', self.state.width)
-	# 	# # if self.rules.wrapping: print('wrapping is activated')
-	# 	# # else: print('wrapping is not activated')
-	# 	# neighbors = []
-	# 	# for row_index, row in enumerate(self.rules.offsets):
-	# 	# 	for col_index, cell in enumerate(row):
-	# 	# 		if not np.array_equal(cell, np.zeros(2, dtype=int)):  # equals [0, 0]
-	# 	# 			# print('cell row:{row_index} cell:{col_index}'.format(row_index=row_index, col_index=col_index), cell)
-	# 	# 			x_coords = (coords[1] + cell[1])
-	# 	# 			y_coords = (coords[0] + cell[0])
-	# 	# 			if self.rules.wrapping:
-	# 	# 				x_coords = x_coords % self.state.width
-	# 	# 				y_coords = y_coords % self.state.height
-	# 	# 				neighbors.append([y_coords, x_coords])
-	# 	# 			else:
-	# 	# 				if x_coords <= self.state.width - 1 and y_coords <= self.state.height - 1:
-	# 	# 					# print('x_coords is', x_coords)
-	# 	# 					# print('y_coords is', y_coords)
-	# 	# 					neighbors.append([y_coords, x_coords])
-	# 	# # print('neighbors:', neighbors)
-	# 	# return neighbors
-
 
 
 def main():

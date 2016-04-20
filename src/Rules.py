@@ -33,27 +33,3 @@ class Rules():
 			raise InvalidAdjacencyMatrixException()
 		else:
 			self.adjacency_matrix = adjacency_matrix
-
-	#	self.offsets = self.calculate_offsets()
-
-	# def calculate_offsets(self):
-	# 	height = len(self.adjacency_matrix)
-	# 	width = len(self.adjacency_matrix[0])
-	#
-	# 	# initialize offset array
-	# 	offsets = np.full((height, width), (0, 0), dtype=(int, 2))
-	#
-	# 	# calculate center coordinate
-	# 	center_x = int(width / 2)
-	# 	center_y = int(height / 2)
-	#
-	# 	# calculate offsets
-	# 	for row_index, row in enumerate(offsets):
-	# 		for column_index, cell in enumerate(row):
-	# 			if self.adjacency_matrix[row_index][column_index] != 0:
-	# 				cell[0] = row_index - center_y
-	# 				cell[1] = column_index - center_y
-	#
-	# 	print(offsets)
-	#
-	# 	return offsets
