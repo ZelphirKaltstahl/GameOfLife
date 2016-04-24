@@ -92,6 +92,8 @@ class State():
 		state_string += 'cells: {cell_counter}\n'.format(cell_counter=self.width * self.height)
 		state_string += 'alive: {alive_counter}\n'.format(alive_counter=alive_counter)
 		state_string += 'dead: {dead_counter}\n'.format(dead_counter=(self.width * self.height - alive_counter))
+		# state_string += 'objects: {objects_counter}\n'.format(objects_counter=self.count_blobs())
+
 
 		return state_string
 
@@ -116,11 +118,10 @@ class State():
 		return self
 
 	def count_blobs(self, adjacency_matrix):
-		print('AM:\n', adjacency_matrix)
+		# print('AM:\n', adjacency_matrix)
 
-		self.invert()
+		# self.invert()
 		blobs, number_of_blobs = sp.ndimage.label(self.generation, structure=adjacency_matrix)
-		self.invert()
 		return number_of_blobs
 
 	def count_alive_cells(self):

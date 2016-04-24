@@ -22,32 +22,31 @@ class GameOfLife():
 		adjacency_matrix[center_y][center_x] = False
 		self.rules = Rules(adjacency_matrix=adjacency_matrix)
 
-		# self.initial_generation = examples.example_state_000
-		# self.initial_generation = examples.example_state_001
-		# self.initial_generation = examples.example_state_002
-		self.initial_generation = examples.example_state_003
+		self.initial_generation = examples.example_state_r_pentomino
 
 		self.state = State(self.initial_generation)
 
 		self.state_history = [self.state]
 
 		print(self.state)
-		print(
-			'The generation has {number_of_objects} objects.'.format(
-				number_of_objects=self.state.count_blobs(
-					self.rules.adjacency_matrix
-				)
-			)
-		)
+		# print(
+		# 	'The generation has {number_of_objects} objects.'.format(
+		# 		number_of_objects=self.state.count_blobs(
+		# 			self.rules.adjacency_matrix
+		# 		)
+		# 	)
+		# )
 
-		max_gen = 100
+		max_gen = 10000
 		while max_gen > 0 and np.any(np.any(self.state.generation, axis=1), axis=0):
+			tmp = input('Press Enter to evolve.')
 			self.next()
-			#print(self.state)
+			print(self.state)
 			max_gen -= 1
 
-		for state in self.state_history:
-			print(state)
+		# for state in self.state_history:
+		# 	print(state)
+		# 	print('objects:', state.count_blobs(self.rules.adjacency_matrix))
 
 		self.plot()
 
@@ -105,6 +104,7 @@ class GameOfLife():
 	def plot(self):
 		plotter = Plotter()
 		plotter.plot_alive_cells(self.state_history)
+		plotter.plot_objects_count(self.rules, self.state_history)
 
 def main():
 	game_of_life_app = GameOfLife()

@@ -34,3 +34,31 @@ class Plotter(object):
 		plt.legend(loc='upper right')
 		plt.title('Alive Cells per Generation', fontsize=24)
 		plt.show()
+
+	def plot_objects_count(self, rules, state_history):
+		objects_counts = [state.count_blobs(rules.adjacency_matrix) for state in state_history]
+		generations = [state.generation_number for state in state_history]
+
+		# calculate line
+		line = plt.plot(
+			generations,
+			objects_counts,
+			'-',
+			linewidth=0.8,
+			label='objects count'
+		)
+
+		# calculate average
+		average_value = np.array(objects_counts).mean()
+		average_objects_counts = [average_value for element in generations]
+		mean_line = plt.plot(
+			generations,
+			average_objects_counts,
+			linestyle='--',
+			label='mean'
+		)
+
+		# Make a legend
+		plt.legend(loc='upper right')
+		plt.title('Objects per Generation', fontsize=24)
+		plt.show()
